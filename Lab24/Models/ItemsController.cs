@@ -49,9 +49,17 @@ namespace Lab24.Models
         {
             if (ModelState.IsValid)
             {
-                db.Item.Add(items);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Item.Add(items);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                {
+                    ModelState.AddModelError("NAme", "Please enter a unique product name");
+                    return View(items);
+                }
             }
 
             return View(items);
