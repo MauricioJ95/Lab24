@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -49,9 +50,17 @@ namespace Lab24.Models
         {
             if (ModelState.IsValid)
             {
-                db.Item.Add(items);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Item.Add(items);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("Name", "Please enter a unique product name");
+                    return View(items);
+                }
             }
 
             return View(items);

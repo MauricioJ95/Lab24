@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lab24.Models
 {
     public class Items
     {
-        public int ID { get; set; }
+        [Key]
         public string Name { get; set; }
         public string Description { get; set; }
         public int Quantity { get; set; }
